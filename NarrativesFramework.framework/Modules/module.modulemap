@@ -1,0 +1,6 @@
+framework module NarrativesFramework {
+  umbrella header "NarrativesFramework.h"
+
+  export *
+  module * { export * }
+}
