@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
     s.name = 'NarrativesFramework'
     s.version = '2.0.0b1'
     s.platform = :ios, '9.0'
-    s.license = 'MIT'
+    s.license  = { :type => 'MIT', :file => 'LICENSE' }
     s.homepage = 'https://git.kiozk.ru/public-projects/narrativesframework'
     s.author = { "St.Pashik" => "stpashik@gmail.com" }
     s.source = { :git => 'https://git.kiozk.ru/public-projects/narrativesframework.git', :tag => s.version }
