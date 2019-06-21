@@ -191,6 +191,7 @@ NS_SWIFT_NAME(NarrativesView)
 - (void)registerNib:(nullable UINib *)nib forCellWithReuseIdentifier:(NSString *)identifier;
 - (void)closeNarrative;
 - (void)refreshNarratives;
+- (void)visibleUpdate;
     
 @end
 
