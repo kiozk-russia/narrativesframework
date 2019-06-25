@@ -149,6 +149,7 @@ NS_SWIFT_NAME(NarrativesView)
 @property (weak, nonatomic) id<NFNarrativesViewCellDeleagate> cellDelegate;
 
 @property (strong, nonatomic) NSString *uniqueKey;
+@property (strong, nonatomic) NSArray <NSString *> *tags;
 
 @property (nonatomic, readonly) BOOL isContent;
 
@@ -189,6 +190,7 @@ NS_SWIFT_NAME(NarrativesView)
 @property (weak, nonatomic) IBOutlet UIViewController *targetController;
 
 - (void)registerNib:(nullable UINib *)nib forCellWithReuseIdentifier:(NSString *)identifier;
+- (void)create;
 - (void)closeNarrative;
 - (void)refreshNarratives;
 - (void)visibleUpdate;

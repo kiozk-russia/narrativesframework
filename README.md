@@ -289,6 +289,7 @@ narrativesView.cellDelegate = self;
 - (void)setImageStringUrl:(NSString *)stringUrl;
 - (void)setReaded:(BOOL)readed;
 - (void)setHighlight:(BOOL)highlight;
+- (void)setBackgroundColor:(UIColor *)color;
 ```
 
 ## События
