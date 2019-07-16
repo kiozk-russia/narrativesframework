@@ -62,9 +62,13 @@ done
 
 ## Использование
 
-Для корректного отображения статуса прочтения нарративов при инициализации NarrativeView необходимо передать ещё и уникальную строковую переменную привязанную к пользователю. Это может быть логин пользователя, id на сервере или в приложении. Основное условие, что бы ключ был уникальным для каждого пользователя.
+Для корректного отображения статуса прочтения нарративов при инициализации `NarrativeView` необходимо передать ещё и уникальную строковую переменную привязанную к пользователю. Это может быть логин пользователя, id на сервере или в приложении. Основное условие, что бы ключ был уникальным для каждого пользователя.
+
+Для таргетирования аудитории, необходимо добавить список тэгов (через запятую, без пробелов) в параметр `tags`.
 
 Так же необходимо указать `targetController` с которого будут происходить переходы при выборе нарратива из списка.
+
+Для запуска сессии и начала работы нарративов, необходимо вызвать метод `create()`
 
 ##### Swift
 
@@ -80,11 +84,14 @@ import NarrativesFramework
 override func viewDidLoad() {
 	super.viewDidLoad()
 
-	let narrativesView = NarrativesView()
-	narrativesView.uniqueKey =  <User unique key (String)>
+	let narrativesView = NarrativesView(frame: .zero)
+	narrativesView.uniqueKey = "<User unique key (String)>"
+	narrativesView.tags = "Список тагов через запятую"
 	narrativesView.targetController = self
 
 	view.addSubview(narrativesView)
+	
+	narrativesView.create()
 }
 ```
 
@@ -102,13 +109,17 @@ override func viewDidLoad() {
 - (void)viewDidLoad {
 	[super viewDidLoad];
     
-	NFNarrativesView *narrativesView = [NFNarrativesView new];
+	NFNarrativesView *narrativesView = [[NFNarrativesView alloc] initWithFrame:CGRectZero];
 	narrativesView.uniqueKey = @"<User unique key (NSString)>";
+	narrativesView.tags = @"Список тагов через запятую";
 	narrativesView.targetController = self;
     
 	[self.view addSubview:narrativesView];
+	
+	[narrativesView create];
 }
 ```
+
 ### Методы
 
 Для обновления данных списка нарративов служит метод - `refreshNarratives`  
