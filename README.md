@@ -124,12 +124,14 @@ override func viewDidLoad() {
 
 ### Методы
 
-Для обновления данных списка нарративов служит метод - `refreshNarratives`  
-Для закрытия карточки нарратива из приложения служит метод - `closeNarrative`
+- Для обновления данных списка нарративов служит метод - `refreshNarratives`  
+- Для обновления данных нарратива представленого на экране служит метод - `refreshCurrentNarrative`  
+- Для закрытия карточки нарратива из приложения служит метод - `closeNarrative`
 
 ##### Swift
 ```swift
 narativesView.refreshNarratives()
+narativesView.refreshCurrentNarrative()
 narativesView.closeNarrative()
 ```
 
@@ -137,6 +139,7 @@ narativesView.closeNarrative()
 
 ```obj-c
 [narrativesView refreshNarratives];
+[narrativesView refreshCurrentNarrative];
 [narrativesView closeNarrative];
 ```
 
@@ -335,3 +338,5 @@ narrativesView.cellDelegate = self;
 *   `SessionFailure` - ошибка при работе с сессией
 *   `NarativeFailure` - ошибка при работе с нарративами
 *   `ArticleFailure` - ошибка при работе со статьями
+*   `CurrentNarrativeFailure` - ошибка при загрузке полной информации по нарративу
+*   `NetworkFailure` - ошибка при работе сетью (нет интернета)

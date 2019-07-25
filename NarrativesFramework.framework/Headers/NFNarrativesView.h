@@ -193,6 +193,7 @@ NS_SWIFT_NAME(NarrativesView)
 - (void)create;
 - (void)closeNarrative;
 - (void)refreshNarratives;
+- (void)refreshCurrentNarrative;
 - (void)visibleUpdate;
     
 @end
