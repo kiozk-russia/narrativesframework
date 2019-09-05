@@ -6,7 +6,7 @@
 
 | NarrativeFramework version | Build version | iOS version |
 |----------------------------|---------------|-------------|
-| 2.1.0                      | 232           | >= 9.0      |
+| 2.1.1                      | 240           | >= 9.0      |
 
 Версию библиотеки можно получить из параметра `frameworkInfo`
 
@@ -90,6 +90,8 @@ override func viewDidLoad() {
 	narrativesView.uniqueKey = "<User unique key (String)>"
 	narrativesView.tags = "Список тагов через запятую"
 	narrativesView.targetController = self
+	
+	narrativesView.startNarrativeID = "<Narrative id (Int)>"
 
 	view.addSubview(narrativesView)
 	
@@ -115,6 +117,8 @@ override func viewDidLoad() {
 	narrativesView.uniqueKey = @"<User unique key (NSString)>";
 	narrativesView.tags = @"Список тагов через запятую";
 	narrativesView.targetController = self;
+	
+	narrativesView.startNarrativeID = "<Narrative id (Int)>";
     
 	[self.view addSubview:narrativesView];
 	
@@ -125,19 +129,22 @@ override func viewDidLoad() {
 ### Методы
 
 - Для обновления данных списка нарративов служит метод - `refreshNarratives`  
+- Для программного отображения нарратива, без тапа на ячейку списка - `showNarrativeWithID:<int>`  
 - Для обновления данных нарратива представленого на экране служит метод - `refreshCurrentNarrative`  
 - Для закрытия карточки нарратива из приложения служит метод - `closeNarrative`
 
 ##### Swift
 ```swift
-narativesView.refreshNarratives()
-narativesView.refreshCurrentNarrative()
-narativesView.closeNarrative()
+narrativesView.showNarrative(withID: <Int>)
+narrativesView.refreshNarratives()
+narrativesView.refreshCurrentNarrative()
+narrativesView.closeNarrative()
 ```
 
 ##### Obj-C
 
 ```obj-c
+[narrativesView showNarrativeWithID:<int>];
 [narrativesView refreshNarratives];
 [narrativesView refreshCurrentNarrative];
 [narrativesView closeNarrative];
@@ -218,6 +225,8 @@ func applicationWillTerminate(_ application: UIApplication) {
 ```swift
 // Заголовок списка. Если не задан, текстовое поле не отображается
 public var title: String = ""
+// Цвет заголовка ячейки нарратива
+public var titleColor = UIColor.black
 // Цвет Заголовка списка
 public var titleColor: UIColor = UIColor.black
 // Семейство шрифта заголовка
@@ -301,11 +310,12 @@ narrativesView.cellDelegate = self;
 #### NFNarrativeCellProtocol
 ```obj-c
 - (void)setTitle:(NSString *)text;
+- (void)setTitleColor:(UIColor *)color;
 - (void)setSource:(NSString *)text;
 - (void)setImageStringUrl:(NSString *)stringUrl;
 - (void)setReaded:(BOOL)readed;
 - (void)setHighlight:(BOOL)highlight;
-- (void)setBackgroundColor:(UIColor *)color;
+- (void)setBackColor:(UIColor *)color;
 ```
 
 ## События

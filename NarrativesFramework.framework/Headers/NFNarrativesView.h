@@ -103,6 +103,20 @@ NS_SWIFT_NAME(NarrativeCellProtocol)
  @param highlight выделена ли ячейка
  */
 - (void)setHighlight:(BOOL)highlight;
+
+/**
+ Установка цвета фона ячейки
+ 
+ @param color цвет
+ */
+- (void)setBackColor:(UIColor *)color;
+
+/**
+ Установка цвета заголовка ячейки
+ 
+ @param color цвет
+ */
+- (void)setTitleColor:(UIColor *)color;
 @end
 
 NS_SWIFT_NAME(NarrativesViewDelegate)
@@ -158,6 +172,8 @@ NS_SWIFT_NAME(NarrativesView)
 @property (strong, nonatomic) IBInspectable NSString *titleFontFamily;
 @property (nonatomic) IBInspectable CGFloat titleFontSize;
 
+@property (nonatomic) IBInspectable int startNarrativeID;
+
 @property (nonatomic) IBInspectable BOOL showingCellTitle;
 @property (nonatomic) IBInspectable BOOL showingCellSource;
 @property (nonatomic) IBInspectable BOOL showStatusBar;
@@ -191,6 +207,7 @@ NS_SWIFT_NAME(NarrativesView)
 
 - (void)registerNib:(nullable UINib *)nib forCellWithReuseIdentifier:(NSString *)identifier;
 - (void)create;
+- (void)showNarrativeWithID:(int)narrativeID;
 - (void)closeNarrative;
 - (void)refreshNarratives;
 - (void)refreshCurrentNarrative;
