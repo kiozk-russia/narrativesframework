@@ -6,7 +6,7 @@
 
 | NarrativeFramework version | Build version | iOS version |
 |----------------------------|---------------|-------------|
-| 2.1.1                      | 240           | >= 9.0      |
+| 2.2.0                      | 316           | >= 9.0      |
 
 Версию библиотеки можно получить из параметра `frameworkInfo`
 
@@ -62,6 +62,7 @@ done
 <false/>
 ```
 
+# NarrativesView
 ## Использование
 
 Для корректного отображения статуса прочтения нарративов при инициализации `NarrativeView` необходимо передать ещё и уникальную строковую переменную привязанную к пользователю. Это может быть логин пользователя, id на сервере или в приложении. Основное условие, что бы ключ был уникальным для каждого пользователя.
@@ -346,7 +347,201 @@ narrativesView.cellDelegate = self;
 В уведомлениях об ошибке так же приходит `userInfo` в виде словаря `["errorMessage" : <Error_message_string>]`
 
 *   `SessionFailure` - ошибка при работе с сессией
-*   `NarativeFailure` - ошибка при работе с нарративами
+*   `NarrativeFailure` - ошибка при работе с нарративами
 *   `ArticleFailure` - ошибка при работе со статьями
 *   `CurrentNarrativeFailure` - ошибка при загрузке полной информации по нарративу
+*   `NetworkFailure` - ошибка при работе сетью (нет интернета)
+
+# PopupNarratives
+## Использование
+
+Для корректного отображения статуса прочтения нарративов при инициализации `PopupNarratives` необходимо передать ещё и уникальную строковую переменную привязанную к пользователю. Это может быть логин пользователя, id на сервере или в приложении. Основное условие, что бы ключ был уникальным для каждого пользователя.
+
+Для таргетирования аудитории, необходимо добавить список тэгов (через запятую, без пробелов) в параметр `tags`.
+
+Для запуска сессии и начала работы нарративов, необходимо вызвать метод `create()`
+
+##### Swift
+
+Импорт:
+
+```swift
+import NarrativesFramework
+```
+
+Инициализация:
+
+```swift
+override func viewDidLoad() {
+	super.viewDidLoad()
+
+	let popupNarratives = PopupNarratives()
+	popupNarratives = "<User unique key (String)>"
+	popupNarratives = "Список тагов через запятую"
+	
+	popupNarratives.create()
+}
+```
+
+##### Obj-C
+
+Импорт:
+
+```obj-c
+#import "LGAlertView.h"
+```
+
+Инициализация:
+
+```obj-c
+- (void)viewDidLoad {
+	[super viewDidLoad];
+    
+	NFPopupNarratives * popupNarratives = [NFPopupNarratives new];
+	narrativesView.uniqueKey = @"<User unique key (NSString)>";
+	narrativesView.tags = @"Список тагов через запятую";
+	
+	[narrativesView create];
+}
+```
+
+### Методы
+
+- Для программного отображения нарратива из контроллера - `showNarrativesFrom:<UIViewController>`  
+- Для обновления данных нарратива представленого на экране служит метод - `refreshCurrentNarrative`  
+- Для закрытия карточки нарратива из приложения служит метод - `closeNarrative`
+
+##### Swift
+```swift
+popupNarratives.show(from: self)
+popupNarratives.refreshCurrentNarrative()
+popupNarratives.closeNarrative()
+```
+
+##### Obj-C
+
+```obj-c
+[popupNarratives showNarrativesFrom:self];
+[popupNarratives refreshCurrentNarrative];
+[popupNarratives closeNarrative];
+```
+
+### Информация
+
+Информацию о библиотеке можно получить из свойства `frameworkInfo`
+
+##### Swift
+```swift
+print(popupNarratives.frameworkInfo)
+```
+
+##### Obj-C
+
+```obj-c
+NSLog(@"%@", popupNarratives.frameworkInfo);
+```
+
+### Отслеживание состояния приложения
+
+Для корректного поведения повествований, необходимо в `AppDelegate`, рассылать уведомления `ResignActive`, `WillTerminate`, `EnterBackground`, `EnterForeground` и `BecomeActive`
+
+##### Swift
+
+```swift
+func applicationWillResignActive(_ application: UIApplication) {
+	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillEnterBackground"), object: nil)
+}
+
+func applicationDidEnterBackground(_ application: UIApplication) {
+	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "EnterBackground"), object: nil)
+}
+
+func applicationWillEnterForeground(_ application: UIApplication) {
+	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillEnterForeground"), object: nil)
+}
+
+func applicationDidBecomeActive(_ application: UIApplication) {
+	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "EnterForeground"), object: nil)
+}
+
+func applicationWillTerminate(_ application: UIApplication) {
+	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillTerminate"), object: nil)
+	sleep(3)
+}
+```
+
+##### Obj-C
+
+```obj-c
+- (void)applicationWillResignActive:(UIApplication *)application {
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"WillEnterBackground" object:nil];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"EnterBackground" object:nil];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"WillEnterForeground" object:nil];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"EnterForeground" object:nil];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+[[NSNotificationCenter defaultCenter] postNotificationName:@"WillTerminate" object:nil];
+	sleep(3)
+}
+```
+
+### Кастомизация
+
+#### Экран повествования
+```swift
+// Позиция кнопки "Закрыть"
+public var closeButtonPosition: ClosePosition = .left
+// Стиль перехода между наративами
+public var scrollNarativeStyle: ScrollStyle = .flat
+// Скрытие статусбара в наративе
+public var showStatusBar: Bool = false
+// Стиль показа экрана наративово (необходимо указать targetController)
+// При использовании стиля .push, необходимо, что-бы targetController имел NavigationController,
+// в противном случае будет присвоено значение .modal
+public var presentationStyle: PresentationStyle = .crossDesolve
+// Размер экрана нарратива на iPad
+public var popupSize: CGSize = CGSize(width: 435, height: 675)
+// Разрешить закрытие наратива по свайпу (только iPhone)
+public var swipeToClose: Bool = true
+```
+
+## События
+
+#### NFNarrativesViewDelegate
+```obj-c
+// Обновление контента списка нарративов
+- (void)popupNarrativesUpdated:(NFPopupNarratives *)popupNarratives;
+// Получение ссылки из карточки нарратива (в основном по нажатию на кнопку)
+- (void)popupNarratives:(NFPopupNarratives *)popupNarratives getLinkWithTarget:(NSString *)target;
+```
+
+#### NotificationCenter
+Для отслеживания поведения экранов внутри библиотеки. Используются в основном для аналитики.
+
+*   `GetPopupNarrativesComplete` - завершено получение списка повествований
+*   `PopupNarrativeReaded` - наратив прочитан - userInfo: ["id": Int]
+*   `PopupNarrativeOpenLink` - открытие ссылки из повествования - userInfo: ["linkType": String]
+*   `PopupNarrativeReaderOpen` - открытие повествованя
+*   `PopupNarrativeReaderClose` - закрытие повествованя
+*   `PopupNarrativeDidScroll` - повествование был перелистнут
+*   `ArticleReaderOpen` - открытие статьи
+*   `ArticleReaderClose` - закрытие статьи
+
+##### NotificationCenter Ошибки
+В уведомлениях об ошибке так же приходит `userInfo` в виде словаря `["errorMessage" : <Error_message_string>]`
+
+*   `PopupSessionFailure` - ошибка при работе с сессией
+*   `PopupNarrativeFailure` - ошибка при работе с нарративами
+*   `ArticleFailure` - ошибка при работе со статьями
+*   `CurrentPopupNarrativeFailure` - ошибка при загрузке полной информации по нарративу
 *   `NetworkFailure` - ошибка при работе сетью (нет интернета)

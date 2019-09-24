@@ -61,6 +61,14 @@ typedef NS_ENUM(NSUInteger, NFNarrativePresentationStyle) {
     NFNarrativePresentationStyleModal        = 2
 } NS_SWIFT_NAME(PresentationStyle);
 
+/**
+ Тип списка нарративов, используется для определения работы ридера
+ */
+typedef NS_ENUM(NSUInteger, NFNarrativeListType) {
+    NFNarrativeListTypeList  = 0,
+    NFNarrativeListTypePopup = 1
+} NS_SWIFT_NAME(NarrativeListType);
+
 @class NFNarrativesView;
 
 NS_SWIFT_NAME(NarrativeCellProtocol)
@@ -139,6 +147,11 @@ NS_SWIFT_NAME(NarrativesViewDelegate)
  @param target сстылка переданная от кнопки внутри карточки
  */
 - (void)narrativeView:(NFNarrativesView *)narrativeView getLinkWithTarget:(NSString *)target;
+
+/**
+ Отслеживание закрытия ридера нарративов
+ */
+- (void)narativeReaderDidClose;
 @end
 
 NS_SWIFT_NAME(NarrativesViewCellDeleagate)
