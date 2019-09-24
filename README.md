@@ -398,10 +398,10 @@ override func viewDidLoad() {
 	[super viewDidLoad];
     
 	NFPopupNarratives * popupNarratives = [NFPopupNarratives new];
-	narrativesView.uniqueKey = @"<User unique key (NSString)>";
-	narrativesView.tags = @"Список тагов через запятую";
+	popupNarratives.uniqueKey = @"<User unique key (NSString)>";
+	popupNarratives.tags = @"Список тагов через запятую";
 	
-	[narrativesView create];
+	[popupNarratives create];
 }
 ```
 
@@ -517,7 +517,7 @@ public var swipeToClose: Bool = true
 
 ## События
 
-#### NFNarrativesViewDelegate
+#### NFPopupNarrativesDelegate
 ```obj-c
 // Обновление контента списка нарративов
 - (void)popupNarrativesUpdated:(NFPopupNarratives *)popupNarratives;
