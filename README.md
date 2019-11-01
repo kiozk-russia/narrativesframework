@@ -6,7 +6,7 @@
 
 | NarrativeFramework version | Build version | iOS version |
 |----------------------------|---------------|-------------|
-| 2.2.0                      | 316           | >= 9.0      |
+| 2.3.0                      | 334           | >= 9.0      |
 
 Версию библиотеки можно получить из параметра `frameworkInfo`
 
@@ -131,12 +131,14 @@ override func viewDidLoad() {
 
 - Для обновления данных списка нарративов служит метод - `refreshNarratives`  
 - Для программного отображения нарратива, без тапа на ячейку списка - `showNarrativeWithID:<int>`  
+- Для отображения единичного нарратива, которого нет в списке - `showSingleNarrativeWithID:<int> fromTarget:<UIViewController>`  
 - Для обновления данных нарратива представленого на экране служит метод - `refreshCurrentNarrative`  
 - Для закрытия карточки нарратива из приложения служит метод - `closeNarrative`
 
 ##### Swift
 ```swift
 narrativesView.showNarrative(withID: <Int>)
+narrativesView.showSingleNarrative(withID: <Int>), fromTarget: <UIViewController>)
 narrativesView.refreshNarratives()
 narrativesView.refreshCurrentNarrative()
 narrativesView.closeNarrative()
@@ -146,6 +148,7 @@ narrativesView.closeNarrative()
 
 ```obj-c
 [narrativesView showNarrativeWithID:<int>];
+[narrativesView showSingleNarrativeWithID:<int> fromTarget:<UIViewController>];
 [narrativesView refreshNarratives];
 [narrativesView refreshCurrentNarrative];
 [narrativesView closeNarrative];

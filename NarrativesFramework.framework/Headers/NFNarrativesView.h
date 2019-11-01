@@ -66,7 +66,8 @@ typedef NS_ENUM(NSUInteger, NFNarrativePresentationStyle) {
  */
 typedef NS_ENUM(NSUInteger, NFNarrativeListType) {
     NFNarrativeListTypeList  = 0,
-    NFNarrativeListTypePopup = 1
+    NFNarrativeListTypePopup = 1,
+    NFNarrativeListTypeSingle = 2
 } NS_SWIFT_NAME(NarrativeListType);
 
 @class NFNarrativesView;
@@ -221,6 +222,7 @@ NS_SWIFT_NAME(NarrativesView)
 - (void)registerNib:(nullable UINib *)nib forCellWithReuseIdentifier:(NSString *)identifier;
 - (void)create;
 - (void)showNarrativeWithID:(int)narrativeID;
+- (void)showSingleNarrativeWithID:(int)narrativeID fromTarget:(UIViewController *)target;
 - (void)closeNarrative;
 - (void)refreshNarratives;
 - (void)refreshCurrentNarrative;
