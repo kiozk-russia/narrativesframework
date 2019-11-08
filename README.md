@@ -14,6 +14,30 @@
 
 Установка осуществляется путём подключения к проекту `NarrativesFramework.framework` библиотеки.
 
+### Установка с CocoaPods
+
+CocoaPods - это менеджер зависимостей для Objective-C, который автоматизирует и упрощает процесс использования сторонних библиотек в ваших проектах. Чтобы установить с CocoaPods, следуйте разделу «Get Started» на [CocoaPods](https://cocoapods.org/).
+#### Podfile
+
+```ruby
+use_frameworks!
+pod 'NarrativesFramework', :git => 'https://git.kiozk.ru/public-projects/narrativesframework.git'
+```
+
+#### Импорт библиотеки
+
+##### Objective-C
+
+```objective-c
+#import <NarrativesFramework/NarrativesFramework.h>
+```
+
+##### Swift
+
+```swift
+import NarrativesFramework
+```
+
 ### Удаление неиспользуемой архитектуры при компиляции
 
 Выбирать проект, Выбрать Target → Project Name → Выбрать Build Phases → Нажать «+» → New Run Script Phase → Назовите скрипт «Remove Unused Architectures Script».
@@ -75,12 +99,6 @@ done
 
 ##### Swift
 
-Импорт:
-
-```swift
-import NarrativesFramework
-```
-
 Инициализация:
 
 ```swift
@@ -101,12 +119,6 @@ override func viewDidLoad() {
 ```
 
 ##### Obj-C
-
-Импорт:
-
-```obj-c
-#import "LGAlertView.h"
-```
 
 Инициализация:
 
