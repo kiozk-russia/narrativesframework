@@ -6,7 +6,7 @@
 
 | NarrativeFramework version | Build version | iOS version |
 |----------------------------|---------------|-------------|
-| 2.3.1                      | 336           | >= 9.0      |
+| 2.3.2                      | 340           | >= 9.0      |
 
 Версию библиотеки можно получить из параметра `frameworkInfo`
 
@@ -295,6 +295,13 @@ public var presentationStyle: PresentationStyle = .crossDesolve
 public var popupSize: CGSize = CGSize(width: 435, height: 675)
 // Разрешить закрытие наратива по свайпу (только iPhone)
 public var swipeToClose: Bool = true
+// Разрешить закрытие наратива по свайпу на крайних нарративах (влево или в право)
+public var overScrollToClose: Bool = true
+
+// Цвет фона плэйсхолдеров на нарративе
+public var placeholderBackgroundColor: UIColor = UIColor.black
+// Цвет элемента в плейсхолдере на нарративе (кнопка "Обновить"/анимация)
+public var placeholderElementColor: UIColor = UIColor.white
 ```
 
 #### Собственная ячейка для списока повествований

@@ -52,6 +52,10 @@ NS_SWIFT_NAME(PopupNarratives)
 
 @property (nonatomic) IBInspectable BOOL showStatusBar;
 @property (nonatomic) IBInspectable BOOL swipeToClose;
+@property (nonatomic) IBInspectable BOOL overScrollToClose;
+
+@property (nonatomic, strong) IBInspectable UIColor *placeholderElementColor;
+@property (nonatomic, strong) IBInspectable UIColor *placeholderBackgroundColor;
 
 @property (nonatomic) IBInspectable CGSize popupSize;
 

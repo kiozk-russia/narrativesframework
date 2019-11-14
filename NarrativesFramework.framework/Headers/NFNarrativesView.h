@@ -192,6 +192,7 @@ NS_SWIFT_NAME(NarrativesView)
 @property (nonatomic) IBInspectable BOOL showingCellSource;
 @property (nonatomic) IBInspectable BOOL showStatusBar;
 @property (nonatomic) IBInspectable BOOL swipeToClose;
+@property (nonatomic) IBInspectable BOOL overScrollToClose;
 
 @property (strong, nonatomic) IBInspectable UIColor *cellBorderColor;
 
@@ -207,6 +208,9 @@ NS_SWIFT_NAME(NarrativesView)
 
 @property (strong, nonatomic) IBInspectable UIColor *containerBackgroundColor;
 @property (strong, nonatomic) IBInspectable UIColor *listBackgroundColor;
+
+@property (nonatomic, strong) IBInspectable UIColor *placeholderElementColor;
+@property (nonatomic, strong) IBInspectable UIColor *placeholderBackgroundColor;
 
 @property (nonatomic) IBInspectable CGSize popupSize;
 
