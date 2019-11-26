@@ -57,6 +57,9 @@ NS_SWIFT_NAME(PopupNarratives)
 @property (nonatomic, strong) IBInspectable UIColor *placeholderElementColor;
 @property (nonatomic, strong) IBInspectable UIColor *placeholderBackgroundColor;
 
+@property (nonatomic) BOOL likePanel;
+@property (nonatomic) BOOL favoritePanel;
+
 @property (nonatomic) IBInspectable CGSize popupSize;
 
 @property (assign, nonatomic) NFNarrativeClosePosition closeButtonPosition;

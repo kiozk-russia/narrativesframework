@@ -32,7 +32,9 @@ typedef NS_ENUM(NSUInteger, NFNarrativeCellStyle) {
  */
 typedef NS_ENUM(NSUInteger, NFNarrativeClosePosition) {
     NFNarrativeCloseButtonPositionLeft  = 0,
-    NFNarrativeCloseButtonPositionRight = 1
+    NFNarrativeCloseButtonPositionRight = 1,
+    NFNarrativeCloseButtonPositionBottomLeft = 2,
+    NFNarrativeCloseButtonPositionBottomRight = 3
 } NS_SWIFT_NAME(ClosePosition);
 
 /**
@@ -67,7 +69,8 @@ typedef NS_ENUM(NSUInteger, NFNarrativePresentationStyle) {
 typedef NS_ENUM(NSUInteger, NFNarrativeListType) {
     NFNarrativeListTypeList  = 0,
     NFNarrativeListTypePopup = 1,
-    NFNarrativeListTypeSingle = 2
+    NFNarrativeListTypeSingle = 2,
+    NFNarrativeListTypeFavorite = 3
 } NS_SWIFT_NAME(NarrativeListType);
 
 @class NFNarrativesView;
@@ -153,6 +156,11 @@ NS_SWIFT_NAME(NarrativesViewDelegate)
  Отслеживание закрытия ридера нарративов
  */
 - (void)narativeReaderDidClose;
+
+/**
+Отслеживание нажатия ячейки с избранными нарративами
+*/
+- (void)favoriteCellDidSelect;
 @end
 
 NS_SWIFT_NAME(NarrativesViewCellDeleagate)
@@ -211,6 +219,9 @@ NS_SWIFT_NAME(NarrativesView)
 
 @property (nonatomic, strong) IBInspectable UIColor *placeholderElementColor;
 @property (nonatomic, strong) IBInspectable UIColor *placeholderBackgroundColor;
+
+//@property (nonatomic) BOOL likePanel;
+//@property (nonatomic) BOOL favoritePanel;
 
 @property (nonatomic) IBInspectable CGSize popupSize;
 
