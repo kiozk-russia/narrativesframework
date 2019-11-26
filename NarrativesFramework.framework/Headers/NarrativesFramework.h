@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "NFNarrativesView.h"
 #import "NFPopupNarratives.h"
-#import "NFFavoriteNarrativesView.h"
 
 //! Project version number for NarrativesFramework.
 FOUNDATION_EXPORT double NarrativesFrameworkVersionNumber;
