@@ -220,7 +220,7 @@ NS_SWIFT_NAME(NarrativesView)
 @property (nonatomic, strong) IBInspectable UIColor *placeholderElementColor;
 @property (nonatomic, strong) IBInspectable UIColor *placeholderBackgroundColor;
 
-//@property (nonatomic) BOOL likePanel;
+@property (nonatomic) BOOL likePanel;
 //@property (nonatomic) BOOL favoritePanel;
 
 @property (nonatomic) IBInspectable CGSize popupSize;

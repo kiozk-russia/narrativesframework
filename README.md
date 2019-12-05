@@ -6,7 +6,7 @@
 
 | NarrativeFramework version | Build version | iOS version |
 |----------------------------|---------------|-------------|
-| 2.3.3                      | 344           | >= 9.0      |
+| 2.3.4                      | 348           | >= 9.0      |
 
 Версию библиотеки можно получить из параметра `frameworkInfo`
 
@@ -308,7 +308,26 @@ public var placeholderElementColor: UIColor = UIColor.white
 
 Для использования собственной ячейки для списка повествований, необходимо у экзэмпляру класса `NarrativesView` указать `NarrativesViewCellDeleagate` и вызвать метод регистрации своей ячеки. 
 
-Так же собственная ячейка должна реализовывать интерфейс(протокол) `NFNarrativeCellProtocol`
+Так же собственная ячейка должна реализовывать интерфейс(протокол) `NFNarrativeCellProtocol`  
+
+
+---
+**Примечание**  
+
+При использовании собственной ячейки, желательно переопределить ```func prepareForReuse()``` и обнулять цвета и данные наполнения полей и картинок.
+
+##### Пример:
+```swift
+override func prepareForReuse() {
+   imageView.alpha = 1.0
+   imageView.image = nil
+   imageView.backgroundColor = .white
+   titleLabel.textColor = .black
+   titleLabel.text = ""
+}
+```
+
+---
 
 ##### Swift
 ```swift
