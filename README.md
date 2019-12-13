@@ -6,7 +6,7 @@
 
 | NarrativeFramework version | Build version | iOS version |
 |----------------------------|---------------|-------------|
-| 2.3.4                      | 348           | >= 9.0      |
+| 2.4.0                      | 356           | >= 9.0      |
 
 Версию библиотеки можно получить из параметра `frameworkInfo`
 
@@ -36,6 +36,60 @@ pod 'NarrativesFramework', :git => 'https://git.kiozk.ru/public-projects/narrati
 
 ```swift
 import NarrativesFramework
+```
+
+### Отслеживание состояния приложения
+
+Для корректного поведения повествований, необходимо в `AppDelegate`, рассылать уведомления `ResignActive`, `WillTerminate`, `EnterBackground`, `EnterForeground` и `BecomeActive`
+
+##### Swift
+
+```swift
+func applicationWillResignActive(_ application: UIApplication) {
+	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillEnterBackground"), object: nil)
+}
+
+func applicationDidEnterBackground(_ application: UIApplication) {
+	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "EnterBackground"), object: nil)
+}
+
+func applicationWillEnterForeground(_ application: UIApplication) {
+	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillEnterForeground"), object: nil)
+}
+
+func applicationDidBecomeActive(_ application: UIApplication) {
+	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "EnterForeground"), object: nil)
+}
+
+func applicationWillTerminate(_ application: UIApplication) {
+	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillTerminate"), object: nil)
+	sleep(3)
+}
+```
+
+##### Obj-C
+
+```obj-c
+- (void)applicationWillResignActive:(UIApplication *)application {
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"WillEnterBackground" object:nil];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"EnterBackground" object:nil];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"WillEnterForeground" object:nil];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"EnterForeground" object:nil];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+[[NSNotificationCenter defaultCenter] postNotificationName:@"WillTerminate" object:nil];
+	sleep(3)
+}
 ```
 
 ### Удаление неиспользуемой архитектуры при компиляции
@@ -166,75 +220,17 @@ narrativesView.closeNarrative()
 [narrativesView closeNarrative];
 ```
 
-### Информация
-
-Информацию о библиотеке можно получить из свойства `frameworkInfo`
-
-##### Swift
+### Параметры и свойства
 ```swift
-print(narativesView.frameworkInfo)
+// Отслеживание наполнения списка нарративов
+public var isContent: Bool
+// Включение/отключение лайков в нутри нарратива
+public var likePanel: Bool
+// Включение/отключение избранного внутри нарратива и обработчика ячеки для избранного
+public var favoritePanel: Bool
+// Информация о версии библиотеки
+public var frameworkInfo: String
 ```
-
-##### Obj-C
-
-```obj-c
-NSLog(@"%@", narrativesView.frameworkInfo);
-```
-
-### Отслеживание состояния приложения
-
-Для корректного поведения повествований, необходимо в `AppDelegate`, рассылать уведомления `ResignActive`, `WillTerminate`, `EnterBackground`, `EnterForeground` и `BecomeActive`
-
-##### Swift
-
-```swift
-func applicationWillResignActive(_ application: UIApplication) {
-	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillEnterBackground"), object: nil)
-}
-
-func applicationDidEnterBackground(_ application: UIApplication) {
-	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "EnterBackground"), object: nil)
-}
-
-func applicationWillEnterForeground(_ application: UIApplication) {
-	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillEnterForeground"), object: nil)
-}
-
-func applicationDidBecomeActive(_ application: UIApplication) {
-	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "EnterForeground"), object: nil)
-}
-
-func applicationWillTerminate(_ application: UIApplication) {
-	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillTerminate"), object: nil)
-	sleep(3)
-}
-```
-
-##### Obj-C
-
-```obj-c
-- (void)applicationWillResignActive:(UIApplication *)application {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"WillEnterBackground" object:nil];
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"EnterBackground" object:nil];
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"WillEnterForeground" object:nil];
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"EnterForeground" object:nil];
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-[[NSNotificationCenter defaultCenter] postNotificationName:@"WillTerminate" object:nil];
-	sleep(3)
-}
-```
-
 ### Кастомизация
 
 #### Список повествований
@@ -265,6 +261,8 @@ public var cellSourceFontFamily: String = "AvenirNext-Medium"
 public var cellSourceFontSize: CGFloat = 14.0
 // Цвет источника ячейки
 public var cellSourceTitleColor: UIColor = UIColor.darkGray
+// Наличие контента в списке нарративов
+public var isContent: Bool = false
 
 // Цвет фона всего виджета
 public var containerBackgroundColor: UIColor = UIColor.clear
@@ -302,6 +300,18 @@ public var overScrollToClose: Bool = true
 public var placeholderBackgroundColor: UIColor = UIColor.black
 // Цвет элемента в плейсхолдере на нарративе (кнопка "Обновить"/анимация)
 public var placeholderElementColor: UIColor = UIColor.white
+
+// Кастомизированный загрузчик повествования
+public var placeholderView: (UIView & NarrativePlaceholderProtocol)? = nil
+
+// Кастомизация иконок на панели лайков
+public var likeImage: UIImage = nil
+public var likeSelectedImage: UIImage = nil
+public var dislikeImage: UIImage = nil
+public var dislikeSelectedImage: UIImage = nil
+// Кастомизация иконок на панели избранного
+public var favoriteImage: UIImage = nil
+public var favoriteSelectedImage: UIImage = nil
 ```
 
 #### Собственная ячейка для списока повествований
@@ -309,6 +319,8 @@ public var placeholderElementColor: UIColor = UIColor.white
 Для использования собственной ячейки для списка повествований, необходимо у экзэмпляру класса `NarrativesView` указать `NarrativesViewCellDeleagate` и вызвать метод регистрации своей ячеки. 
 
 Так же собственная ячейка должна реализовывать интерфейс(протокол) `NFNarrativeCellProtocol`  
+
+При использовании собственной ячейки с включенным `likePanel = true` в списке нарративов, необходимо так же создать собственную ячейку для избранного которая будет реализовывать протокол `NFNarrativeFavoriteCellProtocol`
 
 
 ---
@@ -360,6 +372,12 @@ narrativesView.cellDelegate = self;
 - (void)setBackColor:(UIColor *)color;
 ```
 
+#### NFNarrativeFavoriteCellProtocol
+```obj-c
+- (void)setFavoritesImages:(NSArray<NSString *> *)narrativesImages;
+- (void)setHighlight:(BOOL)highlight;
+```
+
 ## События
 
 #### NFNarrativesViewDelegate
@@ -368,6 +386,10 @@ narrativesView.cellDelegate = self;
 - (void)narrativeViewUpdated:(NFNarrativesView *)narrativeView;
 // Получение ссылки из карточки нарратива (в основном по нажатию на кнопку)
 - (void)narrativeView:(NFNarrativesView *)narrativeView getLinkWithTarget:(NSString *)target;
+// Отслеживание закрытия ридера нарративов
+- (void)narativeReaderDidClose;
+// Отслеживание нажатия ячейки с избранными нарративами
+- (void)favoriteCellDidSelect;
 ```
 
 #### NotificationCenter
@@ -467,10 +489,6 @@ popupNarratives.closeNarrative()
 [popupNarratives closeNarrative];
 ```
 
-### Информация
-
-Информацию о библиотеке можно получить из свойства `frameworkInfo`
-
 ##### Swift
 ```swift
 print(popupNarratives.frameworkInfo)
@@ -482,58 +500,16 @@ print(popupNarratives.frameworkInfo)
 NSLog(@"%@", popupNarratives.frameworkInfo);
 ```
 
-### Отслеживание состояния приложения
-
-Для корректного поведения повествований, необходимо в `AppDelegate`, рассылать уведомления `ResignActive`, `WillTerminate`, `EnterBackground`, `EnterForeground` и `BecomeActive`
-
-##### Swift
-
+### Параметры и свойства
 ```swift
-func applicationWillResignActive(_ application: UIApplication) {
-	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillEnterBackground"), object: nil)
-}
-
-func applicationDidEnterBackground(_ application: UIApplication) {
-	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "EnterBackground"), object: nil)
-}
-
-func applicationWillEnterForeground(_ application: UIApplication) {
-	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillEnterForeground"), object: nil)
-}
-
-func applicationDidBecomeActive(_ application: UIApplication) {
-	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "EnterForeground"), object: nil)
-}
-
-func applicationWillTerminate(_ application: UIApplication) {
-	NotificationCenter.default.post(name: NSNotification.Name(rawValue: "WillTerminate"), object: nil)
-	sleep(3)
-}
-```
-
-##### Obj-C
-
-```obj-c
-- (void)applicationWillResignActive:(UIApplication *)application {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"WillEnterBackground" object:nil];
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"EnterBackground" object:nil];
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"WillEnterForeground" object:nil];
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"EnterForeground" object:nil];
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-[[NSNotificationCenter defaultCenter] postNotificationName:@"WillTerminate" object:nil];
-	sleep(3)
-}
+// Отслеживание наполнения списка нарративов
+public var isContent: Bool
+// Включение/отключение лайков в нутри нарратива
+public var likePanel: Bool
+// Включение/отключение избранного внутри нарратива и обработчика ячеки для избранного
+public var favoritePanel: Bool
+// Информация о версии библиотеки
+public var frameworkInfo: String
 ```
 
 ### Кастомизация
@@ -554,6 +530,18 @@ public var presentationStyle: PresentationStyle = .crossDesolve
 public var popupSize: CGSize = CGSize(width: 435, height: 675)
 // Разрешить закрытие наратива по свайпу (только iPhone)
 public var swipeToClose: Bool = true
+
+// Кастомизированный загрузчик повествования
+public var placeholderView: (UIView & NarrativePlaceholderProtocol)? = nil
+
+// Кастомизация иконок на панели лайков
+public var likeImage: UIImage = nil
+public var likeSelectedImage: UIImage = nil
+public var dislikeImage: UIImage = nil
+public var dislikeSelectedImage: UIImage = nil
+// Кастомизация иконок на панели избранного
+public var favoriteImage: UIImage = nil
+public var favoriteSelectedImage: UIImage = nil
 ```
 
 ## События
@@ -564,6 +552,8 @@ public var swipeToClose: Bool = true
 - (void)popupNarrativesUpdated:(NFPopupNarratives *)popupNarratives;
 // Получение ссылки из карточки нарратива (в основном по нажатию на кнопку)
 - (void)popupNarratives:(NFPopupNarratives *)popupNarratives getLinkWithTarget:(NSString *)target;
+//Отслеживание закрытия ридера нарративов
+- (void)popupNarativeReaderDidClose;
 ```
 
 #### NotificationCenter
@@ -585,4 +575,181 @@ public var swipeToClose: Bool = true
 *   `PopupNarrativeFailure` - ошибка при работе с нарративами
 *   `ArticleFailure` - ошибка при работе со статьями
 *   `CurrentPopupNarrativeFailure` - ошибка при загрузке полной информации по нарративу
+*   `NetworkFailure` - ошибка при работе сетью (нет интернета)
+    
+# FavoriteNarrativesView
+## Использование
+
+`FavoriteNarrativesView` для отображения контента использует тот же параметр `uniqueKey`, что и `NarrativesView`, по этому при создании экрана избранных нарративов его задавать не нужно.
+
+Для начала работы избранных нарративов, необходимо вызвать метод `create()`
+
+##### Swift
+
+Импорт:
+
+```swift
+import NarrativesFramework
+```
+
+Инициализация:
+
+```swift
+override func viewDidLoad() {
+	super.viewDidLoad()
+
+	let favoriteNarratives = FavoriteNarrativesView(frame: .zero)
+	
+	favoriteNarratives.create()
+}
+```
+
+##### Obj-C
+
+Импорт:
+
+```obj-c
+#import "LGAlertView.h"
+```
+
+Инициализация:
+
+```obj-c
+- (void)viewDidLoad {
+	[super viewDidLoad];
+    
+	NFFavoriteNarrativesView * favoriteNarratives = [NFFavoriteNarrativesView alloc] initWithFrame:CGRectZero];
+	
+	[favoriteNarratives create];
+}
+```
+
+### Методы
+
+- Для обновления данных нарратива представленого на экране служит метод - `refreshCurrentNarrative`  
+- Для закрытия карточки нарратива из приложения служит метод - `closeNarrative`
+
+##### Swift
+```swift
+popupNarratives.refreshCurrentNarrative()
+popupNarratives.closeNarrative()
+```
+
+##### Obj-C
+
+```obj-c
+[popupNarratives refreshCurrentNarrative];
+[popupNarratives closeNarrative];
+```
+
+### Параметры и свойства
+```swift
+// Отслеживание наполнения списка нарративов
+public var isContent: Bool
+// Включение/отключение лайков в нутри нарратива
+public var likePanel: Bool
+// Включение/отключение избранного внутри нарратива и обработчика ячеки для избранного
+public var favoritePanel: Bool
+// Информация о версии библиотеки
+public var frameworkInfo: String
+```
+
+### Кастомизация
+
+#### Список повествований
+```swift
+// Стиль отображения ячейки
+public var cellStyle: CellStyle = .circle
+// Цвет рамки ячейки
+public var cellBorderColor: UIColor = UIColor.green
+// Семейство шрифта названия ячейки
+public var cellFontFamily: String = "AvenirNext-Medium"
+// Размер шрифта названия ячейки
+public var cellFontSize: CGFloat = 14.0
+// Цвет названия ячейки
+public var cellTitleColor: UIColor = UIColor.white
+// Семейство шрифта источника ячейки
+public var cellSourceFontFamily: String = "AvenirNext-Medium"
+// Размер шрифта источника ячейки
+public var cellSourceFontSize: CGFloat = 14.0
+// Цвет источника ячейки
+public var cellSourceTitleColor: UIColor = UIColor.darkGray
+// Наличие контента в списке нарративов
+public var isContent: Bool = false
+
+// Расстояние между ячейками нарративов
+public var cellSpacing: CGFloat = 0.0
+// Отображения заголовка в ячейке нарратива
+public var showingCellTitle: Bool = true
+// Отображение источника под ячейкой нарратива
+public var showingCellSource: Bool = true
+```
+
+#### Экран повествования
+```swift
+// Позиция кнопки "Закрыть"
+public var closeButtonPosition: ClosePosition = .left
+// Стиль перехода между наративами
+public var scrollNarativeStyle: ScrollStyle = .flat
+// Скрытие статусбара в наративе
+public var showStatusBar: Bool = false
+// Стиль показа экрана наративово (необходимо указать targetController)
+// При использовании стиля .push, необходимо, что-бы targetController имел NavigationController,
+// в противном случае будет присвоено значение .modal
+public var presentationStyle: PresentationStyle = .crossDesolve
+// Размер экрана нарратива на iPad
+public var popupSize: CGSize = CGSize(width: 435, height: 675)
+// Разрешить закрытие наратива по свайпу (только iPhone и presentationStyle == (.modal || .crossDesolve))
+public var swipeToClose: Bool = true
+// Разрешить закрытие наратива по свайпу на крайних нарративах (влево или в право)
+public var overScrollToClose: Bool = true
+
+// Цвет фона плэйсхолдеров на нарративе
+public var placeholderBackgroundColor: UIColor = UIColor.black
+// Цвет элемента в плейсхолдере на нарративе (кнопка "Обновить"/анимация)
+public var placeholderElementColor: UIColor = UIColor.white
+
+// Кастомизированный загрузчик повествования
+public var placeholderView: (UIView & NarrativePlaceholderProtocol)? = nil
+
+// Кастомизация иконок на панели лайков
+public var likeImage: UIImage = nil
+public var likeSelectedImage: UIImage = nil
+public var dislikeImage: UIImage = nil
+public var dislikeSelectedImage: UIImage = nil
+// Кастомизация иконок на панели избранного
+public var favoriteImage: UIImage = nil
+public var favoriteSelectedImage: UIImage = nil
+```
+
+## События
+
+#### NFFavoriteNarrativesViewDelegate
+```obj-c
+// Отслеживание обновления нарративов внутри FavoriteNarrativesView
+- (void)favoriteNarrativeViewUpdated:(NFFavoriteNarrativesView *)favoriteNarrativeView
+// Обработка нажатия на кнопку внутри карточки нарратива
+- (void)favoriteNarrativeView:(NFFavoriteNarrativesView *)favoriteNarrativeView getLinkWithTarget:(NSString *)target
+// Отслеживание закрытия ридера нарративов
+- (void)favoriteNarativeReaderDidClose
+```
+
+#### NotificationCenter
+Для отслеживания поведения экранов внутри библиотеки. Используются в основном для аналитики.
+
+*   `GetFavoriteNarrativesComplete` - завершено получение списка повествований
+*   `FavoriteNarrativeReaded` - наратив прочитан - userInfo: ["id": Int]
+*   `OpenFavoriteNarrativeLink` - открытие ссылки из повествования - userInfo: ["linkType": String]
+*   `FavoriteNarrativeReaderOpen` - открытие повествованя
+*   `FavoriteNarrativeReaderClose` - закрытие повествованя
+*   `FavoriteNarrativeDidScroll` - повествование был перелистнут
+*   `ArticleReaderOpen` - открытие статьи
+*   `ArticleReaderClose` - закрытие статьи
+
+##### NotificationCenter Ошибки
+В уведомлениях об ошибке так же приходит `userInfo` в виде словаря `["errorMessage" : <Error_message_string>]`
+
+*   `FavoriteNarrativeFailure` - ошибка при работе с нарративами
+*   `ArticleFailure` - ошибка при работе со статьями
+*   `CurrentFavoriteNarrativeFailure` - ошибка при загрузке полной информации по нарративу
 *   `NetworkFailure` - ошибка при работе сетью (нет интернета)

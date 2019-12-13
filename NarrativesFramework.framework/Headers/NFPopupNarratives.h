@@ -57,14 +57,23 @@ NS_SWIFT_NAME(PopupNarratives)
 @property (nonatomic, strong) IBInspectable UIColor *placeholderElementColor;
 @property (nonatomic, strong) IBInspectable UIColor *placeholderBackgroundColor;
 
-@property (nonatomic) BOOL likePanel;
-@property (nonatomic) BOOL favoritePanel;
-
 @property (nonatomic) IBInspectable CGSize popupSize;
 
 @property (assign, nonatomic) NFNarrativeClosePosition closeButtonPosition;
 @property (assign, nonatomic) NFNarrativeScrollStyle scrollNarrativeStyle;
 @property (assign, nonatomic) NFNarrativePresentationStyle presentationStyle;
+
+@property (nonatomic, strong, nullable) UIView<NFNarrativePlaceholderProtocol> *placeholderView;
+
+@property (strong, nonatomic) UIImage *likeImage;
+@property (strong, nonatomic) UIImage *likeSelectedImage;
+@property (strong, nonatomic) UIImage *dislikeImage;
+@property (strong, nonatomic) UIImage *dislikeSelectedImage;
+@property (strong, nonatomic) UIImage *favoriteImage;
+@property (strong, nonatomic) UIImage *favoriteSelectedImage;
+
+@property (nonatomic) BOOL likePanel;
+@property (nonatomic) BOOL favoritePanel;
 
 @property (nonatomic, readonly) NSString *frameworkInfo;
 

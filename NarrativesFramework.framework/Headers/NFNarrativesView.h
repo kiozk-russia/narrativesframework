@@ -131,6 +131,59 @@ NS_SWIFT_NAME(NarrativeCellProtocol)
 - (void)setTitleColor:(UIColor *)color;
 @end
 
+NS_SWIFT_NAME(NarrativeFavoriteCellProtocol)
+/**
+ Протокол (интерфейс) собственной ячейки для избранного, который необходимо реализовать
+ */
+@protocol NFNarrativeFavoriteCellProtocol <NSObject>
+@required
+/**
+Установка картинок для ячейки избранного
+
+@param narrativesImages список адресов картинок из избранного
+*/
+- (void)setFavoritesImages:(NSArray<NSString *> *)narrativesImages;
+/**
+ Выделение ячейки при нажатии на неё
+
+ @param highlight выделена ли ячейка
+ */
+- (void)setHighlight:(BOOL)highlight;
+
+@end
+
+NS_SWIFT_NAME(NarrativePlaceholderProtocol)
+/**
+ Протокол (интерфейс) собственного загрузчика в нарративе, который необходимо реализовать
+ */
+@protocol NFNarrativePlaceholderProtocol <NSObject>
+@required
+/**
+ Установка прогресса загрузки
+
+ @param progress заголовок ячейки
+ */
+- (void)setProgress:(double)progress;
+
+@optional
+/**
+ Является ли анимация в плейсхолдере зацикленной
+ */
+- (BOOL)isInfinity;
+/**
+Проигрывается ли анимация
+*/
+- (BOOL)isAnimate;
+/**
+ Если Placeholder зацикленный, запус анимации
+ */
+- (void)start;
+/**
+ Если Placeholder зацикленный, остановка анимации
+ */
+- (void)stop;
+@end
+
 NS_SWIFT_NAME(NarrativesViewDelegate)
 /**
  Протокол делегата для отслеживания действий NarrativesView
@@ -170,6 +223,8 @@ NS_SWIFT_NAME(NarrativesViewCellDeleagate)
 @protocol NFNarrativesViewCellDeleagate <NSObject>
 - (__kindof UICollectionViewCell <NFNarrativeCellProtocol> *)narrativesCollectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 NS_SWIFT_NAME(narrativesCollectionView(_:cellForItemAt:));
+- (__kindof UICollectionViewCell <NFNarrativeFavoriteCellProtocol> *)narrativesCollectionView:(UICollectionView *)collectionView favoriteCellForItemAtIndexPath:(NSIndexPath *)indexPath
+NS_SWIFT_NAME(narrativesCollectionView(_:favoriteCellForItemAt:));
 - (CGSize)narrativesCollectionViewLayout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 NS_SWIFT_NAME(narrativesCollectionViewLayout(_:sizeForItemAt:));
 - (UIEdgeInsets)narrativesCollectionViewLayout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
@@ -220,8 +275,17 @@ NS_SWIFT_NAME(NarrativesView)
 @property (nonatomic, strong) IBInspectable UIColor *placeholderElementColor;
 @property (nonatomic, strong) IBInspectable UIColor *placeholderBackgroundColor;
 
+@property (nonatomic, strong, nullable) UIView<NFNarrativePlaceholderProtocol> *placeholderView;
+
+@property (strong, nonatomic) UIImage *likeImage;
+@property (strong, nonatomic) UIImage *likeSelectedImage;
+@property (strong, nonatomic) UIImage *dislikeImage;
+@property (strong, nonatomic) UIImage *dislikeSelectedImage;
+@property (strong, nonatomic) UIImage *favoriteImage;
+@property (strong, nonatomic) UIImage *favoriteSelectedImage;
+
 @property (nonatomic) BOOL likePanel;
-//@property (nonatomic) BOOL favoritePanel;
+@property (nonatomic) BOOL favoritePanel;
 
 @property (nonatomic) IBInspectable CGSize popupSize;
 
