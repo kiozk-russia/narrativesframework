@@ -45,6 +45,8 @@ NS_SWIFT_NAME(PopupNarratives)
 
 @property (weak, nonatomic) id<NFPopupNarrativesDelegate> delegate;
 
+@property (strong, nonatomic) NSString *serviceKey;
+@property (nonatomic) BOOL sandBox;
 @property (strong, nonatomic) NSString *uniqueKey;
 @property (strong, nonatomic) NSArray <NSString *> *tags;
 

@@ -239,6 +239,8 @@ NS_SWIFT_NAME(NarrativesView)
 @property (weak, nonatomic) id<NFNarrativesViewDelegate> delegate;
 @property (weak, nonatomic) id<NFNarrativesViewCellDeleagate> cellDelegate;
 
+@property (strong, nonatomic) NSString *serviceKey;
+@property (nonatomic) BOOL sandBox;
 @property (strong, nonatomic) NSString *uniqueKey;
 @property (strong, nonatomic) NSArray <NSString *> *tags;
 

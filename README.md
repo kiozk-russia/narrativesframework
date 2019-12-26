@@ -6,7 +6,7 @@
 
 | NarrativeFramework version | Build version | iOS version |
 |----------------------------|---------------|-------------|
-| 2.4.0                      | 356           | >= 9.0      |
+| 2.4.1                      | 360           | >= 9.0      |
 
 Версию библиотеки можно получить из параметра `frameworkInfo`
 
@@ -140,6 +140,13 @@ done
 <false/>
 ```
 
+---
+**Примечание**  
+
+Так же данные параметры можно установить при инициализации, но обязательно до вызова метода `create()`. Параметры установленные при инициализации являются приоритетными и перекрывают значения установленные в Info.plist.
+
+---
+
 # NarrativesView
 ## Использование
 
@@ -160,8 +167,10 @@ override func viewDidLoad() {
 	super.viewDidLoad()
 
 	let narrativesView = NarrativesView(frame: .zero)
+	narrativesView.serviceKey = "<ключ авторизации в сервисе> (String)"
+	narrativesView.sandBox = "<сервер - Prod/Dev (Bool)>"
 	narrativesView.uniqueKey = "<User unique key (String)>"
-	narrativesView.tags = "Список тагов через запятую"
+	narrativesView.tags = "<Список тагов через запятую>"
 	narrativesView.targetController = self
 	
 	narrativesView.startNarrativeID = "<Narrative id (Int)>"
@@ -181,6 +190,8 @@ override func viewDidLoad() {
 	[super viewDidLoad];
     
 	NFNarrativesView *narrativesView = [[NFNarrativesView alloc] initWithFrame:CGRectZero];
+	narrativesView.serviceKey = @"<ключ авторизации в сервисе> (NSString)";
+	narrativesView.sandBox = "<сервер - Prod/Dev (BOOL)";
 	narrativesView.uniqueKey = @"<User unique key (NSString)>";
 	narrativesView.tags = @"Список тагов через запятую";
 	narrativesView.targetController = self;
